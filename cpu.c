@@ -61,6 +61,14 @@ LD_R_R(a_h, A, H);
 LD_R_R(a_l, A, L);
 LD_R_R(a_a, A, A);
 
+LD_R_N(b, B);
+LD_R_N(c, C);
+LD_R_N(d, D);
+LD_R_N(e, E);
+LD_R_N(h, H);
+LD_R_N(l, L);
+LD_R_N(a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -162,6 +170,14 @@ void cpu_init(CPU *cpu) {
     opcodes[0x7C] = op_ld_a_h;
     opcodes[0x7D] = op_ld_a_l;
     opcodes[0x7F] = op_ld_a_a;
+
+    opcodes[0x06] = op_ld_b_n;
+    opcodes[0x0E] = op_ld_c_n;
+    opcodes[0x16] = op_ld_d_n;
+    opcodes[0x1E] = op_ld_e_n;
+    opcodes[0x26] = op_ld_h_n;
+    opcodes[0x2E] = op_ld_l_n;
+    opcodes[0x3E] = op_ld_a_n;
 }
 
 void cpu_step(CPU *cpu) {

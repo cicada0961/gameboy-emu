@@ -49,8 +49,16 @@ typedef struct {
     int halted;
 }CPU;
 
+//MACRO
 #define LD_R_R(name, dst, src) \
 void op_ld_##name(CPU *cpu) { cpu->dst = cpu->src; }
+
+#define LD_R_N(name, dst) \
+void op_ld_##name##_n(CPU *cpu) { \
+    uint8_t n = read(cpu->PC + 1); \
+    cpu->dst = n; \
+    cpu->PC++; \
+}
 
 extern void (*opcodes[256])(CPU *cpu);
 
@@ -62,6 +70,8 @@ void op_nop(CPU *cpu);
 void op_ld_bc_nn(CPU *cpu);
 void op_jp_nn(CPU *cpu);
 void op_halted(CPU *cpu);
+
+// ========== LD R_R ========== //
 
 //B
 void op_ld_b_b(CPU *cpu);
@@ -126,5 +136,14 @@ void op_ld_a_e(CPU *cpu);
 void op_ld_a_h(CPU *cpu);
 void op_ld_a_l(CPU *cpu);
 void op_ld_a_a(CPU *cpu);
+
+// ========== LD R_N ========== //
+void op_ld_b_n(CPU *cpu);
+void op_ld_c_n(CPU *cpu);
+void op_ld_d_n(CPU *cpu);
+void op_ld_e_n(CPU *cpu);
+void op_ld_h_n(CPU *cpu);
+void op_ld_l_n(CPU *cpu);
+void op_ld_a_n(CPU *cpu);
 
 #endif //GAMEBOY_CPU_H
