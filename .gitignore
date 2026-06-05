@@ -1,0 +1,113 @@
+# ─── Build output ────────────────────────────────────────────────────────────
+build/
+out/
+dist/
+bin/
+lib/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.dSYM/
+
+# ─── CMake ───────────────────────────────────────────────────────────────────
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+cmake_install.cmake
+cmake_uninstall.cmake
+CTestTestfile.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+Makefile
+install_manifest.txt
+compile_commands.json
+_deps/
+*.cmake
+!CMakeLists.txt
+
+# ─── CLion / JetBrains ───────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+cmake-build-*/
+
+# ─── C/C++ generated ─────────────────────────────────────────────────────────
+*.d
+*.i
+*.s
+*.su
+*.gch
+*.pch
+*.map
+*.lst
+
+# ─── Debugger / profiling ────────────────────────────────────────────────────
+*.core
+core
+vgcore.*
+callgrind.out.*
+cachegrind.out.*
+massif.out.*
+perf.data
+perf.data.old
+
+# ─── Sanitizer / coverage ────────────────────────────────────────────────────
+*.gcno
+*.gcda
+*.gcov
+lcov.info
+coverage/
+
+# ─── Linker maps & dependencies ──────────────────────────────────────────────
+*.dep
+
+# ─── macOS ───────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+*.dmg
+
+# ─── Linux ───────────────────────────────────────────────────────────────────
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ─── Windows ─────────────────────────────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ─── VS Code ─────────────────────────────────────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ─── Vim / Emacs ─────────────────────────────────────────────────────────────
+*.swp
+*.swo
+*~
+\#*\#
+.#*
+*.bak
+*.orig
+
+# ─── Logs & temps ────────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.temp
