@@ -60,6 +60,16 @@ void op_ld_##name##_n(CPU *cpu) { \
     cpu->PC++; \
 }
 
+#define ADD_A_R(name, src) \
+void op_add_##name(CPU *cpu) { \
+uint16_t res = cpu->A + cpu->src; \
+cpu->fZ = (res == 0); \
+cpu->fN = 0; \
+cpu->fH = ((cpu->A & 0xF) + (cpu->src & 0xF) > 0xF); \
+cpu->fC = (res > 0xFF); \
+cpu->A = (uint8_t)res; \
+}
+
 extern void (*opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
@@ -145,5 +155,14 @@ void op_ld_e_n(CPU *cpu);
 void op_ld_h_n(CPU *cpu);
 void op_ld_l_n(CPU *cpu);
 void op_ld_a_n(CPU *cpu);
+
+// ========== ADD A_R ========== //
+void op_add_a_b(CPU *cpu);
+void op_add_a_c(CPU *cpu);
+void op_add_a_d(CPU *cpu);
+void op_add_a_e(CPU *cpu);
+void op_add_a_h(CPU *cpu);
+void op_add_a_l(CPU *cpu);
+void op_add_a_a(CPU *cpu);
 
 #endif //GAMEBOY_CPU_H

@@ -69,6 +69,14 @@ LD_R_N(h, H);
 LD_R_N(l, L);
 LD_R_N(a, A);
 
+ADD_A_R(a_b, B);
+ADD_A_R(a_c, C);
+ADD_A_R(a_d, D);
+ADD_A_R(a_e, E);
+ADD_A_R(a_h, H);
+ADD_A_R(a_l, L);
+ADD_A_R(a_a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -95,6 +103,16 @@ void op_jp_nn(CPU *cpu) {
 
 void op_halted(CPU *cpu) {
     cpu->halted = 1;
+}
+
+void op_add_a_B(CPU *cpu) {
+    uint16_t res = cpu->A + cpu->B;
+    cpu->fH = ((cpu->A & 0xF) + (cpu->B & 0xF) > 0xF);
+    cpu->fZ = (res == 0);
+    cpu->fN = 0;
+    cpu->fC = res > 0xFF;
+
+    cpu->A = (uint8_t)res;
 }
 
 void cpu_init(CPU *cpu) {
@@ -178,6 +196,14 @@ void cpu_init(CPU *cpu) {
     opcodes[0x26] = op_ld_h_n;
     opcodes[0x2E] = op_ld_l_n;
     opcodes[0x3E] = op_ld_a_n;
+
+    opcodes[0x80] = op_add_a_b;
+    opcodes[0x81] = op_add_a_c;
+    opcodes[0x82] = op_add_a_d;
+    opcodes[0x83] = op_add_a_e;
+    opcodes[0x84] = op_add_a_h;
+    opcodes[0x85] = op_add_a_l;
+    opcodes[0x87] = op_add_a_a;
 }
 
 void cpu_step(CPU *cpu) {
