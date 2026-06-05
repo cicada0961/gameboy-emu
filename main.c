@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <SDL2/SDL.h>
-
 #include "cpu.h"
 #include "memory.h"
 
@@ -79,6 +77,8 @@ int main(void) {
         }
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+        cpu_step(cpu);
         SDL_RenderClear(renderer);
 
         SDL_RenderCopy(renderer, texture, NULL, NULL);

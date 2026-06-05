@@ -6,6 +6,7 @@
 #define GAMEBOY_CPU_H
 
 #include <stdint.h>
+#include <stdio.h>
 
 typedef struct {
     union {
@@ -47,6 +48,13 @@ typedef struct {
     uint16_t PC;
 }CPU;
 
+extern void (*opcodes[256])(CPU *cpu);
+
 void cpu_init(CPU *cpu);
+void op_unknow(CPU *cpu);
+void cpu_step(CPU *cpu);
+void op_nop(CPU *cpu);
+void op_ld_bc_nn(CPU *cpu);
+void op_jp_nn(CPU *cpu);
 
 #endif //GAMEBOY_CPU_H
