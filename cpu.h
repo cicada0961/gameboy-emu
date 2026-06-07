@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include "memory.h"
+
 typedef struct {
     union {
         uint16_t AF;

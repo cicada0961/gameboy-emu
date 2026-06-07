@@ -3,7 +3,6 @@
 //
 
 #include "cpu.h"
-#include "memory.h"
 
 LD_R_R(b_b, B, B);
 LD_R_R(b_c, B, C);
@@ -221,6 +220,26 @@ void op_add_a_B(CPU *cpu) {
     cpu->A = (uint8_t)res;
 }
 
+void op_call_nn(CPU *cpu) {
+    uint16_t return_addr = cpu->PC + 3;
+    cpu->SP -= 2;
+    write(cpu->SP + 1, return_addr >> 8);
+    write(cpu->SP, return_addr & 0xFF);
+
+    uint8_t lo = read(cpu->PC + 1);
+    uint8_t hi = read(cpu->PC + 2);
+    cpu->PC = lo | (hi << 8);
+    cpu->PC --;
+}
+
+void op_ret(CPU *cpu) {
+    uint8_t lo = read(cpu->SP);
+    uint8_t hi = read(cpu->SP + 1);
+    cpu->PC = lo | (hi << 8);
+    cpu->SP += 2;
+    cpu->PC --;
+}
+
 void cpu_init(CPU *cpu) {
     cpu->AF = 0x01B0;
     cpu->BC = 0x0013;
@@ -371,6 +390,9 @@ void cpu_init(CPU *cpu) {
     opcodes[0x25] = op_dec_h;
     opcodes[0x2D] = op_dec_l;
     opcodes[0x3D] = op_dec_a;
+
+    opcodes[0xCD] = op_call_nn;
+    opcodes[0xC9] = op_ret;
 }
 
 void cpu_step(CPU *cpu) {
