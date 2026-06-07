@@ -60,7 +60,6 @@ void op_ld_##name##_n(CPU *cpu) { \
     cpu->PC++; \
 }
 
-
 #define ADD_A_R(name, src) \
 void op_add_##name(CPU *cpu) { \
 uint16_t res = cpu->A + cpu->src; \

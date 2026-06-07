@@ -151,11 +151,60 @@ void op_ld_bc_nn(CPU *cpu) {
     cpu->BC = lo | (hi << 8);
     cpu->PC += 2;
 }
+
 void op_jp_nn(CPU *cpu) {
     uint8_t lo = read(cpu->PC + 1);
     uint8_t hi = read(cpu->PC + 2);
     cpu->PC = lo | (hi << 8);
     cpu->PC--;
+}
+
+void op_jp_nz_nn(CPU *cpu) {
+    if (cpu->fZ == 0) {
+        uint8_t lo = read(cpu->PC + 1);
+        uint8_t hi = read(cpu->PC + 2);
+        cpu->PC = lo | (hi << 8);
+        cpu->PC--;
+    }
+    else {
+        cpu->PC += 2;
+    }
+}
+
+void op_jp_z_nn(CPU *cpu) {
+    if (cpu->fZ == 1) {
+        uint8_t lo = read(cpu->PC + 1);
+        uint8_t hi = read(cpu->PC + 2);
+        cpu->PC = lo | (hi << 8);
+        cpu->PC--;
+    }
+    else {
+        cpu->PC += 2;
+    }
+}
+
+void op_jp_nc_nn(CPU *cpu) {
+    if (cpu->fC == 0) {
+        uint8_t lo = read(cpu->PC + 1);
+        uint8_t hi = read(cpu->PC + 2);
+        cpu->PC = lo | (hi << 8);
+        cpu->PC--;
+    }
+    else {
+        cpu->PC += 2;
+    }
+}
+
+void op_jp_c_nn(CPU *cpu) {
+    if (cpu->fC == 1) {
+        uint8_t lo = read(cpu->PC + 1);
+        uint8_t hi = read(cpu->PC + 2);
+        cpu->PC = lo | (hi << 8);
+        cpu->PC--;
+    }
+    else {
+        cpu->PC += 2;
+    }
 }
 
 void op_halted(CPU *cpu) {
@@ -189,6 +238,11 @@ void cpu_init(CPU *cpu) {
     opcodes[0x01] = op_ld_bc_nn;
     opcodes[0xC3] = op_jp_nn;
     opcodes[0x76] = op_halted;
+
+    opcodes[0xC2] = op_jp_nz_nn;
+    opcodes[0xCA] = op_jp_z_nn;
+    opcodes[0xD2] = op_jp_nc_nn;
+    opcodes[0xDA] = op_jp_c_nn;
 
     opcodes[0x40] = op_ld_b_b;
     opcodes[0x41] = op_ld_b_c;
