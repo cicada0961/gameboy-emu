@@ -101,6 +101,14 @@ OR_A_R(a_h, H);
 OR_A_R(a_l, L);
 OR_A_R(a_a, A);
 
+XOR_A_R(a_b, B);
+XOR_A_R(a_c, C);
+XOR_A_R(a_d, D);
+XOR_A_R(a_e, E);
+XOR_A_R(a_h, H);
+XOR_A_R(a_l, L);
+XOR_A_R(a_a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -252,6 +260,14 @@ void cpu_init(CPU *cpu) {
     opcodes[0xB4] = op_or_a_h;
     opcodes[0xB5] = op_or_a_l;
     opcodes[0xB7] = op_or_a_a;
+
+    opcodes[0xA8] = op_xor_a_b;
+    opcodes[0xA9] = op_xor_a_c;
+    opcodes[0xAA] = op_xor_a_d;
+    opcodes[0xAB] = op_xor_a_e;
+    opcodes[0xAC] = op_xor_a_h;
+    opcodes[0xAD] = op_xor_a_l;
+    opcodes[0xAF] = op_xor_a_a;
 }
 
 void cpu_step(CPU *cpu) {

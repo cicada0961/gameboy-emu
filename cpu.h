@@ -99,6 +99,15 @@ cpu->fH = 0; \
 cpu->fC = 0; \
 }
 
+#define XOR_A_R(name, src) \
+void op_xor_##name(CPU *cpu){ \
+cpu->A = cpu->A ^ cpu->src; \
+cpu->fZ = (cpu->A == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+cpu->fC = 0; \
+}
+
 extern void (*opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
@@ -220,5 +229,14 @@ void op_or_a_e(CPU *cpu);
 void op_or_a_h(CPU *cpu);
 void op_or_a_l(CPU *cpu);
 void op_or_a_a(CPU *cpu);
+
+// ========== XOR A_R ========== //
+void op_xor_a_b(CPU *cpu);
+void op_xor_a_c(CPU *cpu);
+void op_xor_a_d(CPU *cpu);
+void op_xor_a_e(CPU *cpu);
+void op_xor_a_h(CPU *cpu);
+void op_xor_a_l(CPU *cpu);
+void op_xor_a_a(CPU *cpu);
 
 #endif //GAMEBOY_CPU_H
