@@ -109,15 +109,6 @@ cpu->fH = 0; \
 cpu->fC = 0; \
 }
 
-#define XOR_A_R(name, src) \
-void op_xor_##name(CPU *cpu){ \
-cpu->A = cpu->A ^ cpu->src; \
-cpu->fZ = (cpu->A == 0); \
-cpu->fN = 0; \
-cpu->fH = 0; \
-cpu->fC = 0; \
-}
-
 #define CP_A_R(name, src) \
 void op_cp_##name(CPU *cpu){ \
 uint16_t res = cpu->A - cpu->src; \
@@ -168,6 +159,8 @@ void op_ld_hl_##name(CPU *cpu){ \
 write(cpu->HL, cpu->src); \
 }
 
+//====================
+
 extern void (*opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
@@ -176,8 +169,18 @@ void cpu_step(CPU *cpu);
 void op_unknow(CPU *cpu);
 void op_nop(CPU *cpu);
 void op_ld_bc_nn(CPU *cpu);
+void op_ld_hl_nn(CPU *cpu);
 void op_jp_nn(CPU *cpu);
 void op_halted(CPU *cpu);
+void op_ret(CPU *cpu);
+void op_call_nn(CPU *cpu);
+void op_add_a_B(CPU *cpu);
+void op_ld_a_nn(CPU *cpu);
+void op_ldh_a_n(CPU *cpu);
+void op_ldh_n_a(CPU *cpu);
+void op_cp_n(CPU *cpu);
+void op_jr_e(CPU *cpu);
+void op_jr_nz(CPU *cpu);
 
 // ========== LD R_R ========== //
 

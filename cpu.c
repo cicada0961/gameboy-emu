@@ -163,7 +163,11 @@ LD_R_HL(a, A);
 void (*opcodes[256])(CPU *cpu);
 
 void op_unknow(CPU *cpu) {
-    printf("Opcode inconnu : 0x%02X à PC=0x%04X\n", read(cpu->PC), cpu->PC);
+    FILE *log = fopen("unknown_opcodes.log", "a");
+    if (log) {
+        fprintf(log, "0x%02X à PC=0x%04X\n", read(cpu->PC), cpu->PC);
+        fclose(log);
+    }
 }
 
 void op_nop(CPU *cpu) {
@@ -173,6 +177,13 @@ void op_ld_bc_nn(CPU *cpu) {
     uint8_t lo = read(cpu->PC + 1);
     uint8_t hi = read(cpu->PC + 2);
     cpu->BC = lo | (hi << 8);
+    cpu->PC += 2;
+}
+
+void op_ld_hl_nn(CPU *cpu) {
+    uint8_t lo = read(cpu->PC + 1);
+    uint8_t hi = read(cpu->PC + 2);
+    cpu->HL = lo | (hi << 8);
     cpu->PC += 2;
 }
 
@@ -263,6 +274,68 @@ void op_ret(CPU *cpu) {
     cpu->PC = lo | (hi << 8);
     cpu->SP += 2;
     cpu->PC --;
+}
+
+void op_di(CPU *cpu) {
+    //Interruptuin ignoré pour le moment
+}
+
+void op_ld_sp_nn(CPU *cpu) {
+    uint8_t lo = read(cpu->PC + 1);
+    uint8_t hi = read(cpu->PC + 2);
+    cpu->SP = lo | (hi << 8);
+    cpu->PC += 2;
+}
+
+void op_ld_a_nn(CPU *cpu) {
+    uint8_t lo = read(cpu->PC + 1);
+    uint8_t hi = read(cpu->PC + 2);
+    uint16_t addresse = lo | (hi << 8);
+    write(addresse, cpu->A);
+    cpu->PC += 2;
+}
+
+void op_ldh_a_n(CPU *cpu) {
+    uint16_t n = read(cpu->PC + 1);
+    n += 0xFF00;
+    write(n, cpu->A);
+    cpu->PC++;
+}
+
+void op_ldh_n_a(CPU *cpu) {
+    uint16_t n = read(cpu->PC + 1);
+    n += 0xFF00;
+    cpu->A = read(n);
+    cpu->A ++;
+}
+
+void op_cp_n(CPU *cpu) {
+    uint8_t n = read(cpu->PC + 1);
+    uint16_t res = cpu->A - n;
+    cpu->fZ = (res == 0);
+    cpu->fN = 1;
+    cpu->fH = ((cpu->A & 0xF) < (n & 0xF));
+    cpu->fC = (cpu->A < n);
+    cpu->PC++;
+}
+
+void op_jr_e(CPU *cpu) {
+    int8_t offset = (int8_t)read(cpu->PC + 1);
+    cpu->PC ++;
+    cpu->PC += offset;
+    cpu->PC--;
+}
+
+void op_jr_nz(CPU *cpu) {
+    if (cpu->fZ == 0) {
+        int8_t offset = (int8_t)read(cpu->PC + 1);
+        cpu->PC ++;
+        cpu->PC += offset;
+        cpu->PC--;
+    }
+    else {
+        cpu->PC++;
+    }
 }
 
 void cpu_init(CPU *cpu) {
@@ -360,7 +433,7 @@ void cpu_init(CPU *cpu) {
     opcodes[0x85] = op_add_a_l;
     opcodes[0x87] = op_add_a_a;
 
-    opcodes[0x91] = op_sub_a_b;
+    opcodes[0x90] = op_sub_a_b;
     opcodes[0x91] = op_sub_a_c;
     opcodes[0x92] = op_sub_a_d;
     opcodes[0x93] = op_sub_a_e;
@@ -429,21 +502,34 @@ void cpu_init(CPU *cpu) {
     opcodes[0xE1] = op_pop_hl;
     opcodes[0xF1] = op_pop_af;
 
-    opcodes[0x70] = op_ld_b_hl;
-    opcodes[0x71] = op_ld_c_hl;
-    opcodes[0x72] = op_ld_d_hl;
-    opcodes[0x73] = op_ld_e_hl;
-    opcodes[0x74] = op_ld_h_hl;
-    opcodes[0x75] = op_ld_l_hl;
-    opcodes[0x77] = op_ld_a_hl;
+    opcodes[0x70] = op_ld_hl_b;
+    opcodes[0x71] = op_ld_hl_c;
+    opcodes[0x72] = op_ld_hl_d;
+    opcodes[0x73] = op_ld_hl_e;
+    opcodes[0x74] = op_ld_hl_h;
+    opcodes[0x75] = op_ld_hl_l;
+    opcodes[0x77] = op_ld_hl_a;
 
-    opcodes[0x46] = op_ld_hl_b;
-    opcodes[0x4E] = op_ld_hl_c;
-    opcodes[0x56] = op_ld_hl_d;
-    opcodes[0x5E] = op_ld_hl_e;
-    opcodes[0x66] = op_ld_hl_h;
-    opcodes[0x6E] = op_ld_hl_l;
-    opcodes[0x7E] = op_ld_hl_a;
+    opcodes[0x46] = op_ld_b_hl;
+    opcodes[0x4E] = op_ld_c_hl;
+    opcodes[0x56] = op_ld_d_hl;
+    opcodes[0x5E] = op_ld_e_hl;
+    opcodes[0x66] = op_ld_h_hl;
+    opcodes[0x6E] = op_ld_l_hl;
+    opcodes[0x7E] = op_ld_a_hl;
+
+    opcodes[0xF3] = op_di;
+    opcodes[0x31] = op_ld_sp_nn;
+    opcodes[0x21] = op_ld_hl_nn;
+    opcodes[0x21] = op_ld_hl_nn;
+    opcodes[0xEA] = op_ld_a_nn;
+    opcodes[0xE0] = op_ldh_a_n;
+    opcodes[0xF0] = op_ldh_n_a;
+
+    opcodes[0xFE] = op_cp_n;
+    opcodes[0x18] = op_jr_e;
+
+    opcodes[0x20] = op_jr_nz;
 }
 
 void cpu_step(CPU *cpu) {

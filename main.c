@@ -12,7 +12,7 @@ int main(void) {
     if (f) {
         fread(memory, 1, 0x10000, f);
         fclose(f);
-
+        printf("ROM chargée, premier octet : 0x%02X\n", memory[0x0100]);
     }
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         printf("Erreur SDL_Init: %s\n", SDL_GetError());
@@ -79,6 +79,7 @@ int main(void) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
         cpu_step(cpu);
+
         SDL_RenderClear(renderer);
 
         SDL_RenderCopy(renderer, texture, NULL, NULL);
