@@ -81,6 +81,15 @@ cpu->fC = (cpu->A < cpu->src); \
 cpu->A = (uint8_t)res; \
 }
 
+#define AND_A_R(name, src) \
+void op_and_##name(CPU *cpu){ \
+cpu->A = cpu->A & cpu->src; \
+cpu->fZ = (cpu->A == 0); \
+cpu->fN = 0; \
+cpu->fH = 1; \
+cpu->fC = 0; \
+}
+
 extern void (*opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
@@ -184,5 +193,14 @@ void op_sub_a_e(CPU *cpu);
 void op_sub_a_h(CPU *cpu);
 void op_sub_a_l(CPU *cpu);
 void op_sub_a_a(CPU *cpu);
+
+// ========== AND A_R ========== //
+void op_and_a_b(CPU *cpu);
+void op_and_a_c(CPU *cpu);
+void op_and_a_d(CPU *cpu);
+void op_and_a_e(CPU *cpu);
+void op_and_a_h(CPU *cpu);
+void op_and_a_l(CPU *cpu);
+void op_and_a_a(CPU *cpu);
 
 #endif //GAMEBOY_CPU_H
