@@ -143,6 +143,21 @@ cpu->fZ = (cpu->src == 0); \
 cpu->fN = 1; \
 }
 
+#define PUSH_R_R(name, src) \
+void op_push_##name(CPU *cpu){ \
+cpu->SP -= 2; \
+write(cpu->SP + 1, cpu->src >> 8); \
+write(cpu->SP, cpu->src & 0xFF); \
+}
+
+#define POP_R_R(name, src) \
+void op_pop_##name(CPU *cpu){ \
+uint8_t lo = read(cpu->SP); \
+uint8_t hi = read(cpu->SP + 1); \
+cpu->src = lo | (hi << 8); \
+cpu->SP += 2; \
+}
+
 extern void (*opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
@@ -300,4 +315,17 @@ void op_dec_e(CPU *cpu);
 void op_dec_h(CPU *cpu);
 void op_dec_l(CPU *cpu);
 void op_dec_a(CPU *cpu);
-#endif //GAMEBOY_CPU_H
+
+// ========== PUSH R_R ========== //
+void op_push_bc(CPU *cpu);
+void op_push_de(CPU *cpu);
+void op_push_hl(CPU *cpu);
+void op_push_af(CPU *cpu);
+
+// ========== POP R_R ========== //
+void op_pop_bc(CPU *cpu);
+void op_pop_de(CPU *cpu);
+void op_pop_hl(CPU *cpu);
+void op_pop_af(CPU *cpu);
+
+#endif //GAMBOY_CPU

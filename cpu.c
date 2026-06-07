@@ -132,6 +132,15 @@ DEC_R(h, H);
 DEC_R(l, L);
 DEC_R(a, A);
 
+PUSH_R_R(bc, BC);
+PUSH_R_R(de, DE);
+PUSH_R_R(hl, HL);
+PUSH_R_R(af, AF);
+
+POP_R_R(bc, BC);
+POP_R_R(de, DE);
+POP_R_R(hl, HL);
+POP_R_R(af, AF);
 
 //INSTRUCTION PROCESSEURS --------------
 
@@ -393,6 +402,16 @@ void cpu_init(CPU *cpu) {
 
     opcodes[0xCD] = op_call_nn;
     opcodes[0xC9] = op_ret;
+
+    opcodes[0xC5] = op_push_bc;
+    opcodes[0xD5] = op_push_de;
+    opcodes[0xE5] = op_push_hl;
+    opcodes[0xF5] = op_push_af;
+
+    opcodes[0xC1] = op_pop_bc;
+    opcodes[0xD1] = op_pop_de;
+    opcodes[0xE1] = op_pop_hl;
+    opcodes[0xF1] = op_pop_af;
 }
 
 void cpu_step(CPU *cpu) {
