@@ -108,6 +108,15 @@ cpu->fH = 0; \
 cpu->fC = 0; \
 }
 
+#define CP_A_R(name, src) \
+void op_cp_##name(CPU *cpu){ \
+uint16_t res = cpu->A - cpu->src; \
+cpu->fZ = (res == 0); \
+cpu->fN = 1; \
+cpu->fH = ((cpu->A & 0xF) < (cpu->src & 0xF)); \
+cpu->fC = (cpu->A < cpu->src); \
+}
+
 extern void (*opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
@@ -238,5 +247,14 @@ void op_xor_a_e(CPU *cpu);
 void op_xor_a_h(CPU *cpu);
 void op_xor_a_l(CPU *cpu);
 void op_xor_a_a(CPU *cpu);
+
+// ========== CP A_R ========== //
+void op_cp_a_b(CPU *cpu);
+void op_cp_a_c(CPU *cpu);
+void op_cp_a_d(CPU *cpu);
+void op_cp_a_e(CPU *cpu);
+void op_cp_a_h(CPU *cpu);
+void op_cp_a_l(CPU *cpu);
+void op_cp_a_a(CPU *cpu);
 
 #endif //GAMEBOY_CPU_H
