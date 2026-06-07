@@ -93,6 +93,14 @@ AND_A_R(a_h, H);
 AND_A_R(a_l, L);
 AND_A_R(a_a, A);
 
+OR_A_R(a_b, B);
+OR_A_R(a_c, C);
+OR_A_R(a_d, D);
+OR_A_R(a_e, E);
+OR_A_R(a_h, H);
+OR_A_R(a_l, L);
+OR_A_R(a_a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -236,6 +244,14 @@ void cpu_init(CPU *cpu) {
     opcodes[0xA4] = op_and_a_h;
     opcodes[0xA5] = op_and_a_l;
     opcodes[0xA7] = op_and_a_a;
+
+    opcodes[0xB0] = op_or_a_b;
+    opcodes[0xB1] = op_or_a_c;
+    opcodes[0xB2] = op_or_a_d;
+    opcodes[0xB3] = op_or_a_e;
+    opcodes[0xB4] = op_or_a_h;
+    opcodes[0xB5] = op_or_a_l;
+    opcodes[0xB7] = op_or_a_a;
 }
 
 void cpu_step(CPU *cpu) {
