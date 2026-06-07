@@ -142,6 +142,22 @@ POP_R_R(de, DE);
 POP_R_R(hl, HL);
 POP_R_R(af, AF);
 
+LD_HL_R(b, B);
+LD_HL_R(c, C);
+LD_HL_R(d, D);
+LD_HL_R(e, E);
+LD_HL_R(h, H);
+LD_HL_R(l, L);
+LD_HL_R(a, A);
+
+LD_R_HL(b, B);
+LD_R_HL(c, C);
+LD_R_HL(d, D);
+LD_R_HL(e, E);
+LD_R_HL(h, H);
+LD_R_HL(l, L);
+LD_R_HL(a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -412,6 +428,22 @@ void cpu_init(CPU *cpu) {
     opcodes[0xD1] = op_pop_de;
     opcodes[0xE1] = op_pop_hl;
     opcodes[0xF1] = op_pop_af;
+
+    opcodes[0x70] = op_ld_b_hl;
+    opcodes[0x71] = op_ld_c_hl;
+    opcodes[0x72] = op_ld_d_hl;
+    opcodes[0x73] = op_ld_e_hl;
+    opcodes[0x74] = op_ld_h_hl;
+    opcodes[0x75] = op_ld_l_hl;
+    opcodes[0x77] = op_ld_a_hl;
+
+    opcodes[0x46] = op_ld_hl_b;
+    opcodes[0x4E] = op_ld_hl_c;
+    opcodes[0x56] = op_ld_hl_d;
+    opcodes[0x5E] = op_ld_hl_e;
+    opcodes[0x66] = op_ld_hl_h;
+    opcodes[0x6E] = op_ld_hl_l;
+    opcodes[0x7E] = op_ld_hl_a;
 }
 
 void cpu_step(CPU *cpu) {

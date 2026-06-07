@@ -158,6 +158,16 @@ cpu->src = lo | (hi << 8); \
 cpu->SP += 2; \
 }
 
+#define LD_R_HL(name, dst) \
+void op_ld_##name##_hl(CPU *cpu) { \
+cpu->dst = read(cpu->HL); \
+}
+
+#define LD_HL_R(name, src) \
+void op_ld_hl_##name(CPU *cpu){ \
+write(cpu->HL, cpu->src); \
+}
+
 extern void (*opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
@@ -327,5 +337,23 @@ void op_pop_bc(CPU *cpu);
 void op_pop_de(CPU *cpu);
 void op_pop_hl(CPU *cpu);
 void op_pop_af(CPU *cpu);
+
+// ========== READ LD_HR ========== //
+void op_ld_b_hl(CPU *cpu);
+void op_ld_c_hl(CPU *cpu);
+void op_ld_d_hl(CPU *cpu);
+void op_ld_e_hl(CPU *cpu);
+void op_ld_h_hl(CPU *cpu);
+void op_ld_l_hl(CPU *cpu);
+void op_ld_a_hl(CPU *cpu);
+
+// ========== WRITE LD_HR ========== //
+void op_ld_hl_b(CPU *cpu);
+void op_ld_hl_c(CPU *cpu);
+void op_ld_hl_d(CPU *cpu);
+void op_ld_hl_e(CPU *cpu);
+void op_ld_hl_h(CPU *cpu);
+void op_ld_hl_l(CPU *cpu);
+void op_ld_hl_a(CPU *cpu);
 
 #endif //GAMBOY_CPU
