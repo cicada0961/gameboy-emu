@@ -117,6 +117,23 @@ CP_A_R(a_h, H);
 CP_A_R(a_l, L);
 CP_A_R(a_a, A);
 
+INC_R(b, B);
+INC_R(c, C);
+INC_R(d, D);
+INC_R(e, E);
+INC_R(h, H);
+INC_R(l, L);
+INC_R(a, A);
+
+DEC_R(b, B);
+DEC_R(c, C);
+DEC_R(d, D);
+DEC_R(e, E);
+DEC_R(h, H);
+DEC_R(l, L);
+DEC_R(a, A);
+
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -284,6 +301,22 @@ void cpu_init(CPU *cpu) {
     opcodes[0xBC] = op_cp_a_h;
     opcodes[0xBD] = op_cp_a_l;
     opcodes[0xBF] = op_cp_a_a;
+
+    opcodes[0x04] = op_inc_b;
+    opcodes[0x0C] = op_inc_c;
+    opcodes[0x14] = op_inc_d;
+    opcodes[0x1C] = op_inc_e;
+    opcodes[0x24] = op_inc_h;
+    opcodes[0x2C] = op_inc_l;
+    opcodes[0x3C] = op_inc_a;
+
+    opcodes[0x05] = op_dec_b;
+    opcodes[0x0D] = op_dec_c;
+    opcodes[0x15] = op_dec_d;
+    opcodes[0x1D] = op_dec_e;
+    opcodes[0x25] = op_dec_h;
+    opcodes[0x2D] = op_dec_l;
+    opcodes[0x3D] = op_dec_a;
 }
 
 void cpu_step(CPU *cpu) {

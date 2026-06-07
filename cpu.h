@@ -108,6 +108,15 @@ cpu->fH = 0; \
 cpu->fC = 0; \
 }
 
+#define XOR_A_R(name, src) \
+void op_xor_##name(CPU *cpu){ \
+cpu->A = cpu->A ^ cpu->src; \
+cpu->fZ = (cpu->A == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+cpu->fC = 0; \
+}
+
 #define CP_A_R(name, src) \
 void op_cp_##name(CPU *cpu){ \
 uint16_t res = cpu->A - cpu->src; \
@@ -115,6 +124,22 @@ cpu->fZ = (res == 0); \
 cpu->fN = 1; \
 cpu->fH = ((cpu->A & 0xF) < (cpu->src & 0xF)); \
 cpu->fC = (cpu->A < cpu->src); \
+}
+
+#define INC_R(name, src) \
+void op_inc_##name(CPU *cpu){ \
+cpu->fH = ((cpu->src & 0xF) == 0xF); \
+cpu->src++; \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+}
+
+#define DEC_R(name, src) \
+void op_dec_##name(CPU *cpu){ \
+cpu->fH = ((cpu->src & 0xF) == 0x0); \
+cpu->src--; \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 1; \
 }
 
 extern void (*opcodes[256])(CPU *cpu);
@@ -257,4 +282,21 @@ void op_cp_a_h(CPU *cpu);
 void op_cp_a_l(CPU *cpu);
 void op_cp_a_a(CPU *cpu);
 
+// ========== INC R ========== //
+void op_inc_b(CPU *cpu);
+void op_inc_c(CPU *cpu);
+void op_inc_d(CPU *cpu);
+void op_inc_e(CPU *cpu);
+void op_inc_h(CPU *cpu);
+void op_inc_l(CPU *cpu);
+void op_inc_a(CPU *cpu);
+
+// ========== DEC R ========== //
+void op_dec_b(CPU *cpu);
+void op_dec_c(CPU *cpu);
+void op_dec_d(CPU *cpu);
+void op_dec_e(CPU *cpu);
+void op_dec_h(CPU *cpu);
+void op_dec_l(CPU *cpu);
+void op_dec_a(CPU *cpu);
 #endif //GAMEBOY_CPU_H
