@@ -60,6 +60,7 @@ void op_ld_##name##_n(CPU *cpu) { \
     cpu->PC++; \
 }
 
+
 #define ADD_A_R(name, src) \
 void op_add_##name(CPU *cpu) { \
 uint16_t res = cpu->A + cpu->src; \
@@ -67,6 +68,16 @@ cpu->fZ = (res == 0); \
 cpu->fN = 0; \
 cpu->fH = ((cpu->A & 0xF) + (cpu->src & 0xF) > 0xF); \
 cpu->fC = (res > 0xFF); \
+cpu->A = (uint8_t)res; \
+}
+
+#define SUB_A_R(name, src) \
+void op_sub_##name(CPU *cpu){ \
+uint16_t res = cpu->A - cpu->src; \
+cpu->fZ = (res == 0); \
+cpu->fN = 1; \
+cpu->fH = ((cpu->A & 0xF) < (cpu->src & 0xF)); \
+cpu->fC = (cpu->A < cpu->src); \
 cpu->A = (uint8_t)res; \
 }
 
@@ -164,5 +175,14 @@ void op_add_a_e(CPU *cpu);
 void op_add_a_h(CPU *cpu);
 void op_add_a_l(CPU *cpu);
 void op_add_a_a(CPU *cpu);
+
+// ========== SUB A_R ========== //
+void op_sub_a_b(CPU *cpu);
+void op_sub_a_c(CPU *cpu);
+void op_sub_a_d(CPU *cpu);
+void op_sub_a_e(CPU *cpu);
+void op_sub_a_h(CPU *cpu);
+void op_sub_a_l(CPU *cpu);
+void op_sub_a_a(CPU *cpu);
 
 #endif //GAMEBOY_CPU_H

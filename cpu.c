@@ -77,6 +77,14 @@ ADD_A_R(a_h, H);
 ADD_A_R(a_l, L);
 ADD_A_R(a_a, A);
 
+SUB_A_R(a_b, B);
+SUB_A_R(a_c, C);
+SUB_A_R(a_d, D);
+SUB_A_R(a_e, E);
+SUB_A_R(a_h, H);
+SUB_A_R(a_l, L);
+SUB_A_R(a_a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -204,6 +212,14 @@ void cpu_init(CPU *cpu) {
     opcodes[0x84] = op_add_a_h;
     opcodes[0x85] = op_add_a_l;
     opcodes[0x87] = op_add_a_a;
+
+    opcodes[0x91] = op_sub_a_b;
+    opcodes[0x91] = op_sub_a_c;
+    opcodes[0x92] = op_sub_a_d;
+    opcodes[0x93] = op_sub_a_e;
+    opcodes[0x94] = op_sub_a_h;
+    opcodes[0x95] = op_sub_a_l;
+    opcodes[0x97] = op_sub_a_a;
 }
 
 void cpu_step(CPU *cpu) {
