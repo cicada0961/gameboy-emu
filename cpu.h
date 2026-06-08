@@ -247,6 +247,12 @@ cpu->fZ = (val == 0); \
 cpu->fN = 0; \
 cpu->fH = 1; \
 }
+
+#define RES_N_R(bit, name, src) \
+void op_res_##bit##_##name(CPU *cpu) { \
+cpu->src &= ~(1 << bit); \
+}
+
 //====================
 
 extern void (*opcodes[256])(CPU *cpu);

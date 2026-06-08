@@ -291,6 +291,70 @@ BIT_N_R(7, h, H);
 BIT_N_R(7, l, L);
 BIT_N_R(7, a, A);
 
+RES_N_R(0, b, B);
+RES_N_R(0, c, C);
+RES_N_R(0, d, D);
+RES_N_R(0, e, E);
+RES_N_R(0, h, H);
+RES_N_R(0, l, L);
+RES_N_R(0, a, A);
+
+RES_N_R(1, b, B);
+RES_N_R(1, c, C);
+RES_N_R(1, d, D);
+RES_N_R(1, e, E);
+RES_N_R(1, h, H);
+RES_N_R(1, l, L);
+RES_N_R(1, a, A);
+
+RES_N_R(2, b, B);
+RES_N_R(2, c, C);
+RES_N_R(2, d, D);
+RES_N_R(2, e, E);
+RES_N_R(2, h, H);
+RES_N_R(2, l, L);
+RES_N_R(2, a, A);
+
+RES_N_R(3, b, B);
+RES_N_R(3, c, C);
+RES_N_R(3, d, D);
+RES_N_R(3, e, E);
+RES_N_R(3, h, H);
+RES_N_R(3, l, L);
+RES_N_R(3, a, A);
+
+RES_N_R(4, b, B);
+RES_N_R(4, c, C);
+RES_N_R(4, d, D);
+RES_N_R(4, e, E);
+RES_N_R(4, h, H);
+RES_N_R(4, l, L);
+RES_N_R(4, a, A);
+
+RES_N_R(5, b, B);
+RES_N_R(5, c, C);
+RES_N_R(5, d, D);
+RES_N_R(5, e, E);
+RES_N_R(5, h, H);
+RES_N_R(5, l, L);
+RES_N_R(5, a, A);
+
+RES_N_R(6, b, B);
+RES_N_R(6, c, C);
+RES_N_R(6, d, D);
+RES_N_R(6, e, E);
+RES_N_R(6, h, H);
+RES_N_R(6, l, L);
+RES_N_R(6, a, A);
+
+RES_N_R(7, b, B);
+RES_N_R(7, c, C);
+RES_N_R(7, d, D);
+RES_N_R(7, e, E);
+RES_N_R(7, h, H);
+RES_N_R(7, l, L);
+RES_N_R(7, a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -841,6 +905,69 @@ void cpu_init(CPU *cpu) {
     cb_opcodes[0x7D] = op_bit_7_l;
     cb_opcodes[0x7F] = op_bit_7_a;
 
+    cb_opcodes[0x80] = op_res_0_b;
+    cb_opcodes[0x81] = op_res_0_c;
+    cb_opcodes[0x82] = op_res_0_d;
+    cb_opcodes[0x83] = op_res_0_e;
+    cb_opcodes[0x84] = op_res_0_h;
+    cb_opcodes[0x85] = op_res_0_l;
+    cb_opcodes[0x87] = op_res_0_a;
+
+    cb_opcodes[0x88] = op_res_1_b;
+    cb_opcodes[0x89] = op_res_1_c;
+    cb_opcodes[0x8A] = op_res_1_d;
+    cb_opcodes[0x8B] = op_res_1_e;
+    cb_opcodes[0x8C] = op_res_1_h;
+    cb_opcodes[0x8D] = op_res_1_l;
+    cb_opcodes[0x8F] = op_res_1_a;
+
+    cb_opcodes[0x90] = op_res_2_b;
+    cb_opcodes[0x91] = op_res_2_c;
+    cb_opcodes[0x92] = op_res_2_d;
+    cb_opcodes[0x93] = op_res_2_e;
+    cb_opcodes[0x94] = op_res_2_h;
+    cb_opcodes[0x95] = op_res_2_l;
+    cb_opcodes[0x97] = op_res_2_a;
+
+    cb_opcodes[0x98] = op_res_3_b;
+    cb_opcodes[0x99] = op_res_3_c;
+    cb_opcodes[0x9A] = op_res_3_d;
+    cb_opcodes[0x9B] = op_res_3_e;
+    cb_opcodes[0x9C] = op_res_3_h;
+    cb_opcodes[0x9D] = op_res_3_l;
+    cb_opcodes[0x9F] = op_res_3_a;
+
+    cb_opcodes[0xA0] = op_res_4_b;
+    cb_opcodes[0xA1] = op_res_4_c;
+    cb_opcodes[0xA2] = op_res_4_d;
+    cb_opcodes[0xA3] = op_res_4_e;
+    cb_opcodes[0xA4] = op_res_4_h;
+    cb_opcodes[0xA5] = op_res_4_l;
+    cb_opcodes[0xA7] = op_res_4_a;
+
+    cb_opcodes[0xA8] = op_res_5_b;
+    cb_opcodes[0xA9] = op_res_5_c;
+    cb_opcodes[0xAA] = op_res_5_d;
+    cb_opcodes[0xAB] = op_res_5_e;
+    cb_opcodes[0xAC] = op_res_5_h;
+    cb_opcodes[0xAD] = op_res_5_l;
+    cb_opcodes[0xAF] = op_res_5_a;
+
+    cb_opcodes[0xB0] = op_res_6_b;
+    cb_opcodes[0xB1] = op_res_6_c;
+    cb_opcodes[0xB2] = op_res_6_d;
+    cb_opcodes[0xB3] = op_res_6_e;
+    cb_opcodes[0xB4] = op_res_6_h;
+    cb_opcodes[0xB5] = op_res_6_l;
+    cb_opcodes[0xB7] = op_res_6_a;
+
+    cb_opcodes[0xB8] = op_res_7_b;
+    cb_opcodes[0xB9] = op_res_7_c;
+    cb_opcodes[0xBA] = op_res_7_d;
+    cb_opcodes[0xBB] = op_res_7_e;
+    cb_opcodes[0xBC] = op_res_7_h;
+    cb_opcodes[0xBD] = op_res_7_l;
+    cb_opcodes[0xBF] = op_res_7_a;
 
 }
 
