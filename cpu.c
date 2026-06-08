@@ -355,6 +355,70 @@ RES_N_R(7, h, H);
 RES_N_R(7, l, L);
 RES_N_R(7, a, A);
 
+SET_N_R(0, b, B);
+SET_N_R(0, c, C);
+SET_N_R(0, d, D);
+SET_N_R(0, e, E);
+SET_N_R(0, h, H);
+SET_N_R(0, l, L);
+SET_N_R(0, a, A);
+
+SET_N_R(1, b, B);
+SET_N_R(1, c, C);
+SET_N_R(1, d, D);
+SET_N_R(1, e, E);
+SET_N_R(1, h, H);
+SET_N_R(1, l, L);
+SET_N_R(1, a, A);
+
+SET_N_R(2, b, B);
+SET_N_R(2, c, C);
+SET_N_R(2, d, D);
+SET_N_R(2, e, E);
+SET_N_R(2, h, H);
+SET_N_R(2, l, L);
+SET_N_R(2, a, A);
+
+SET_N_R(3, b, B);
+SET_N_R(3, c, C);
+SET_N_R(3, d, D);
+SET_N_R(3, e, E);
+SET_N_R(3, h, H);
+SET_N_R(3, l, L);
+SET_N_R(3, a, A);
+
+SET_N_R(4, b, B);
+SET_N_R(4, c, C);
+SET_N_R(4, d, D);
+SET_N_R(4, e, E);
+SET_N_R(4, h, H);
+SET_N_R(4, l, L);
+SET_N_R(4, a, A);
+
+SET_N_R(5, b, B);
+SET_N_R(5, c, C);
+SET_N_R(5, d, D);
+SET_N_R(5, e, E);
+SET_N_R(5, h, H);
+SET_N_R(5, l, L);
+SET_N_R(5, a, A);
+
+SET_N_R(6, b, B);
+SET_N_R(6, c, C);
+SET_N_R(6, d, D);
+SET_N_R(6, e, E);
+SET_N_R(6, h, H);
+SET_N_R(6, l, L);
+SET_N_R(6, a, A);
+
+SET_N_R(7, b, B);
+SET_N_R(7, c, C);
+SET_N_R(7, d, D);
+SET_N_R(7, e, E);
+SET_N_R(7, h, H);
+SET_N_R(7, l, L);
+SET_N_R(7, a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -969,6 +1033,69 @@ void cpu_init(CPU *cpu) {
     cb_opcodes[0xBD] = op_res_7_l;
     cb_opcodes[0xBF] = op_res_7_a;
 
+    cb_opcodes[0xC0] = op_set_0_b;
+    cb_opcodes[0xC1] = op_set_0_c;
+    cb_opcodes[0xC2] = op_set_0_d;
+    cb_opcodes[0xC3] = op_set_0_e;
+    cb_opcodes[0xC4] = op_set_0_h;
+    cb_opcodes[0xC5] = op_set_0_l;
+    cb_opcodes[0xC7] = op_set_0_a;
+
+    cb_opcodes[0xC8] = op_set_1_b;
+    cb_opcodes[0xC9] = op_set_1_c;
+    cb_opcodes[0xCA] = op_set_1_d;
+    cb_opcodes[0xCB] = op_set_1_e;
+    cb_opcodes[0xCC] = op_set_1_h;
+    cb_opcodes[0xCD] = op_set_1_l;
+    cb_opcodes[0xCF] = op_set_1_a;
+
+    cb_opcodes[0xD0] = op_set_2_b;
+    cb_opcodes[0xD1] = op_set_2_c;
+    cb_opcodes[0xD2] = op_set_2_d;
+    cb_opcodes[0xD3] = op_set_2_e;
+    cb_opcodes[0xD4] = op_set_2_h;
+    cb_opcodes[0xD5] = op_set_2_l;
+    cb_opcodes[0xD7] = op_set_2_a;
+
+    cb_opcodes[0xD8] = op_set_3_b;
+    cb_opcodes[0xD9] = op_set_3_c;
+    cb_opcodes[0xDA] = op_set_3_d;
+    cb_opcodes[0xDB] = op_set_3_e;
+    cb_opcodes[0xDC] = op_set_3_h;
+    cb_opcodes[0xDD] = op_set_3_l;
+    cb_opcodes[0xDF] = op_set_3_a;
+
+    cb_opcodes[0xE0] = op_set_4_b;
+    cb_opcodes[0xE1] = op_set_4_c;
+    cb_opcodes[0xE2] = op_set_4_d;
+    cb_opcodes[0xE3] = op_set_4_e;
+    cb_opcodes[0xE4] = op_set_4_h;
+    cb_opcodes[0xE5] = op_set_4_l;
+    cb_opcodes[0xE7] = op_set_4_a;
+
+    cb_opcodes[0xE8] = op_set_5_b;
+    cb_opcodes[0xE9] = op_set_5_c;
+    cb_opcodes[0xEA] = op_set_5_d;
+    cb_opcodes[0xEB] = op_set_5_e;
+    cb_opcodes[0xEC] = op_set_5_h;
+    cb_opcodes[0xED] = op_set_5_l;
+    cb_opcodes[0xEF] = op_set_5_a;
+
+    cb_opcodes[0xF0] = op_set_6_b;
+    cb_opcodes[0xF1] = op_set_6_c;
+    cb_opcodes[0xF2] = op_set_6_d;
+    cb_opcodes[0xF3] = op_set_6_e;
+    cb_opcodes[0xF4] = op_set_6_h;
+    cb_opcodes[0xF5] = op_set_6_l;
+    cb_opcodes[0xF7] = op_set_6_a;
+
+    cb_opcodes[0xF8] = op_set_7_b;
+    cb_opcodes[0xF9] = op_set_7_c;
+    cb_opcodes[0xFA] = op_set_7_d;
+    cb_opcodes[0xFB] = op_set_7_e;
+    cb_opcodes[0xFC] = op_set_7_h;
+    cb_opcodes[0xFD] = op_set_7_l;
+    cb_opcodes[0xFF] = op_set_7_a;
 }
 
 void cpu_step(CPU *cpu) {

@@ -253,6 +253,11 @@ void op_res_##bit##_##name(CPU *cpu) { \
 cpu->src &= ~(1 << bit); \
 }
 
+#define SET_N_R(bit, name, src) \
+void op_set_##bit##_##name(CPU *cpu) { \
+cpu->src |= (1 << bit); \
+}
+
 //====================
 
 extern void (*opcodes[256])(CPU *cpu);
