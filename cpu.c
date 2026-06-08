@@ -163,9 +163,18 @@ INC_RR(de, DE);
 INC_RR(hl, HL);
 INC_RR(sp, SP);
 
+RLC_R(b, B);
+RLC_R(c, C);
+RLC_R(d, D);
+RLC_R(e, E);
+RLC_R(h, H);
+RLC_R(l, L);
+RLC_R(a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
+void (*cb_opcodes[256])(CPU *cpu);
 
 void op_unknow(CPU *cpu) {
     FILE *log = fopen("unknown_opcodes.log", "a");
@@ -372,6 +381,12 @@ void op_ldi_a_hl(CPU *cpu) {
     cpu->HL++;
 }
 
+void op_cb(CPU *cpu) {
+    uint8_t cb_opcode = read(cpu->PC + 1);
+    cb_opcodes[cb_opcode](cpu);
+    cpu->PC++;
+}
+
 void cpu_init(CPU *cpu) {
     cpu->AF = 0x01B0;
     cpu->BC = 0x0013;
@@ -383,6 +398,7 @@ void cpu_init(CPU *cpu) {
 
     for (int i = 0; i < 256; i++) {
         opcodes[i] = op_unknow;
+        cb_opcodes[i] = op_unknow;
     }
 
     opcodes[0x00] = op_nop;
@@ -575,6 +591,15 @@ void cpu_init(CPU *cpu) {
     opcodes[0x02] = op_ld_bc_a;
     opcodes[0x0A] = op_ld_a_bc;
     opcodes[0x2A] = op_ldi_a_hl;
+    opcodes[0xCB] = op_cb;
+
+    cb_opcodes[0x00] = op_rlc_b;
+    cb_opcodes[0x01] = op_rlc_c;
+    cb_opcodes[0x02] = op_rlc_d;
+    cb_opcodes[0x03] = op_rlc_e;
+    cb_opcodes[0x04] = op_rlc_h;
+    cb_opcodes[0x05] = op_rlc_l;
+    cb_opcodes[0x07] = op_rlc_a;
 }
 
 void cpu_step(CPU *cpu) {
@@ -590,7 +615,7 @@ void cpu_check(void) {
     for (int i = 0; i < 256; i++) {
         if (opcodes[i] == op_unknow) count++;
     }
-    printf("%d opcodes non implémentés\n", 256 - count);
+    printf("%d opcodes implémentés\n", 256 - count);
     printf("%d opcodes manquants\n", count);
 }
 

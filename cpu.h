@@ -164,9 +164,20 @@ void op_ld_hl_##name(CPU *cpu){ \
 write(cpu->HL, cpu->src); \
 }
 
+#define RLC_R(name, src) \
+void op_rlc_##name(CPU *cpu){ \
+uint8_t bit7 = (cpu->src >> 7) & 1; \
+cpu->src = (cpu->src << 1) | bit7; \
+cpu->fC = bit7; \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+}
+
 //====================
 
 extern void (*opcodes[256])(CPU *cpu);
+extern void (*cb_opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
 void cpu_step(CPU *cpu);
@@ -192,6 +203,7 @@ void op_ei(CPU *cpu);
 void op_ld_bc_a(CPU *cpu);
 void op_ld_a_bc(CPU *cpu);
 void op_ldi_a_hl(CPU *cpu);
+void op_cb(CPU *cpu);
 
 // ========== LD R_R ========== //
 
@@ -375,5 +387,14 @@ void op_inc_bc(CPU *cpu);
 void op_inc_de(CPU *cpu);
 void op_inc_hl(CPU *cpu);
 void op_inc_sp(CPU *cpu);
+
+// ========== RLC R ========== //
+void op_rlc_b(CPU *cpu);
+void op_rlc_c(CPU *cpu);
+void op_rlc_d(CPU *cpu);
+void op_rlc_e(CPU *cpu);
+void op_rlc_h(CPU *cpu);
+void op_rlc_l(CPU *cpu);
+void op_rlc_a(CPU *cpu);
 
 #endif //GAMBOY_CPU
