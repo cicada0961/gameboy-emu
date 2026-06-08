@@ -190,6 +190,8 @@ void op_jr_nz(CPU *cpu);
 void op_jr_z_e(CPU *cpu);
 void op_ei(CPU *cpu);
 void op_ld_bc_a(CPU *cpu);
+void op_ld_a_bc(CPU *cpu);
+void op_ldi_a_hl(CPU *cpu);
 
 // ========== LD R_R ========== //
 

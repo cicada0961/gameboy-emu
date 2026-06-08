@@ -363,6 +363,15 @@ void op_ld_bc_a(CPU *cpu) {
     write(cpu->BC, cpu->A);
 }
 
+void op_ld_a_bc(CPU *cpu) {
+    cpu->A = read(cpu->BC);
+}
+
+void op_ldi_a_hl(CPU *cpu) {
+    cpu->A = read(cpu->HL);
+    cpu->HL++;
+}
+
 void cpu_init(CPU *cpu) {
     cpu->AF = 0x01B0;
     cpu->BC = 0x0013;
@@ -564,6 +573,8 @@ void cpu_init(CPU *cpu) {
     opcodes[0x33] = op_inc_sp;
 
     opcodes[0x02] = op_ld_bc_a;
+    opcodes[0x0A] = op_ld_a_bc;
+    opcodes[0x2A] = op_ldi_a_hl;
 }
 
 void cpu_step(CPU *cpu) {
