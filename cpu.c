@@ -1108,11 +1108,15 @@ void cpu_step(CPU *cpu) {
 
 void cpu_check(void) {
     int count = 0;
+    int cb_count = 0;
     for (int i = 0; i < 256; i++) {
         if (opcodes[i] == op_unknow) count++;
+        if (cb_opcodes[i] == op_unknow) cb_count++;
     }
     printf("%d opcodes implémentés\n", 256 - count);
     printf("%d opcodes manquants\n", count);
+    printf("%d CB opcodes implémentés\n", 256 - cb_count);
+    printf("%d CB opcodes manquants\n", cb_count);
 }
 
 // -------------------

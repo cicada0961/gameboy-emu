@@ -2,11 +2,15 @@
 #include <SDL2/SDL.h>
 #include "cpu.h"
 #include "memory.h"
+#include "ppu.h"
 
 
 int main(void) {
     CPU *cpu = malloc(sizeof(CPU));
+    PPU *ppu = malloc(sizeof(PPU));
+
     cpu_init(cpu);
+    ppu_init(ppu);
     cpu_check();
 
     FILE *f = fopen("rom.gb", "rb");
@@ -19,7 +23,7 @@ int main(void) {
         printf("Erreur SDL_Init: %s\n", SDL_GetError());
         return 1;
     }
-    
+
     SDL_Window * window = SDL_CreateWindow(
         "Game Boy",
         SDL_WINDOWPOS_CENTERED,
@@ -41,16 +45,12 @@ int main(void) {
         return 1;
     }
 
-    uint32_t pixels[640 * 480];
-
-    for (int i =0; i < 640 * 480; i++) pixels[i] = 0xFF0000FF;
-
     SDL_Texture *texture = SDL_CreateTexture(
       renderer,
       SDL_PIXELFORMAT_RGBA8888,
       SDL_TEXTUREACCESS_STATIC,
-      640,
-      480);
+      160,
+      144);
     if (!texture)
     {
         printf("Erreur texture: %s\n", SDL_GetError());
@@ -60,7 +60,7 @@ int main(void) {
         return 1;
     }
 
-    if (SDL_UpdateTexture(texture, NULL, pixels, 640 * sizeof(uint32_t)) != 0)
+    if (SDL_UpdateTexture(texture, NULL, ppu->pixels, 160 * sizeof(uint32_t)) != 0)
     {
         printf("Erreur SDL_UpdateTexture: %s\n", SDL_GetError());
         SDL_DestroyTexture(texture);
@@ -79,8 +79,12 @@ int main(void) {
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
-        cpu_step(cpu);
+        for (int i = 0; i < 70000; i++) {
+            cpu_step(cpu);
+            ppu_step(ppu);
+        }
 
+        SDL_UpdateTexture(texture, NULL, ppu->pixels, 160 * sizeof(uint32_t));
         SDL_RenderClear(renderer);
 
         SDL_RenderCopy(renderer, texture, NULL, NULL);

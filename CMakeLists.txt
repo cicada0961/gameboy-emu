@@ -10,6 +10,8 @@ add_executable(gameboy main.c
         cpu.c
         cpu.h
         memory.c
-        memory.h)
+        memory.h
+        ppu.c
+        ppu.h)
 
 target_link_libraries(gameboy SDL2)
