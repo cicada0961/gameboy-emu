@@ -285,6 +285,10 @@ void op_di(CPU *cpu) {
     //Interruptuin ignoré pour le moment
 }
 
+void op_ei(CPU *cpu) {
+    // Interruption ignoré pour le moment
+}
+
 void op_ld_sp_nn(CPU *cpu) {
     uint8_t lo = read(cpu->PC + 1);
     uint8_t hi = read(cpu->PC + 2);
@@ -341,6 +345,22 @@ void op_jr_nz(CPU *cpu) {
     else {
         cpu->PC++;
     }
+}
+
+void op_jr_z_e(CPU *cpu) {
+    if (cpu->fZ == 1) {
+        int8_t offset = (int8_t)read(cpu->PC + 1);
+        cpu->PC ++;
+        cpu->PC += offset;
+        cpu->PC--;
+    }
+    else {
+        cpu->PC++;
+    }
+}
+
+void op_ld_bc_a(CPU *cpu) {
+    write(cpu->BC, cpu->A);
 }
 
 void cpu_init(CPU *cpu) {
@@ -524,6 +544,8 @@ void cpu_init(CPU *cpu) {
     opcodes[0x7E] = op_ld_a_hl;
 
     opcodes[0xF3] = op_di;
+    opcodes[0xFB] = op_ei;
+
     opcodes[0x31] = op_ld_sp_nn;
     opcodes[0x21] = op_ld_hl_nn;
     opcodes[0x21] = op_ld_hl_nn;
@@ -534,11 +556,14 @@ void cpu_init(CPU *cpu) {
     opcodes[0xFE] = op_cp_n;
     opcodes[0x18] = op_jr_e;
     opcodes[0x20] = op_jr_nz;
+    opcodes[0x28] = op_jr_z_e;
 
     opcodes[0x03] = op_inc_bc;
     opcodes[0x13] = op_inc_de;
     opcodes[0x23] = op_inc_hl;
     opcodes[0x33] = op_inc_sp;
+
+    opcodes[0x02] = op_ld_bc_a;
 }
 
 void cpu_step(CPU *cpu) {

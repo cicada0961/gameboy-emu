@@ -187,6 +187,9 @@ void op_ldh_n_a(CPU *cpu);
 void op_cp_n(CPU *cpu);
 void op_jr_e(CPU *cpu);
 void op_jr_nz(CPU *cpu);
+void op_jr_z_e(CPU *cpu);
+void op_ei(CPU *cpu);
+void op_ld_bc_a(CPU *cpu);
 
 // ========== LD R_R ========== //
 
