@@ -174,6 +174,36 @@ cpu->fN = 0; \
 cpu->fH = 0; \
 }
 
+#define RRC_R(name, src) \
+void op_rrc_##name(CPU *cpu){ \
+uint8_t bit0 = cpu->src & 1; \
+cpu->src = (cpu->src >> 1) | (bit0 << 7); \
+cpu->fC = bit0; \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+}
+
+#define RL_R(name, src) \
+void op_rl_##name(CPU *cpu){ \
+uint8_t bit7 = (cpu->src >> 7) & 1; \
+cpu->src = (cpu->src << 1) | cpu->fC; \
+cpu->fC = bit7; \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+}
+
+#define RR_R(name, src) \
+void op_rr_##name(CPU *cpu){ \
+uint8_t bit0 = cpu->src & 1; \
+cpu->src = (cpu->src >> 1) | (cpu->fC << 7); \
+cpu->fC = bit0; \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+}
+
 //====================
 
 extern void (*opcodes[256])(CPU *cpu);
@@ -396,5 +426,32 @@ void op_rlc_e(CPU *cpu);
 void op_rlc_h(CPU *cpu);
 void op_rlc_l(CPU *cpu);
 void op_rlc_a(CPU *cpu);
+
+// ========== RRC R ========== //
+void op_rrc_b(CPU *cpu);
+void op_rrc_c(CPU *cpu);
+void op_rrc_d(CPU *cpu);
+void op_rrc_e(CPU *cpu);
+void op_rrc_h(CPU *cpu);
+void op_rrc_l(CPU *cpu);
+void op_rrc_a(CPU *cpu);
+
+// ========== RL R ========== //
+void op_rl_b(CPU *cpu);
+void op_rl_c(CPU *cpu);
+void op_rl_d(CPU *cpu);
+void op_rl_e(CPU *cpu);
+void op_rl_h(CPU *cpu);
+void op_rl_l(CPU *cpu);
+void op_rl_a(CPU *cpu);
+
+// ========== RR R ========== //
+void op_rr_b(CPU *cpu);
+void op_rr_c(CPU *cpu);
+void op_rr_d(CPU *cpu);
+void op_rr_e(CPU *cpu);
+void op_rr_h(CPU *cpu);
+void op_rr_l(CPU *cpu);
+void op_rr_a(CPU *cpu);
 
 #endif //GAMBOY_CPU

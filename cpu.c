@@ -171,6 +171,30 @@ RLC_R(h, H);
 RLC_R(l, L);
 RLC_R(a, A);
 
+RRC_R(b, B);
+RRC_R(c, C);
+RRC_R(d, D);
+RRC_R(e, E);
+RRC_R(h, H);
+RRC_R(l, L);
+RRC_R(a, A);
+
+RL_R(b, B);
+RL_R(c, C);
+RL_R(d, D);
+RL_R(e, E);
+RL_R(h, H);
+RL_R(l, L);
+RL_R(a, A);
+
+RR_R(b, B);
+RR_R(c, C);
+RR_R(d, D);
+RR_R(e, E);
+RR_R(h, H);
+RR_R(l, L);
+RR_R(a, A);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -600,6 +624,30 @@ void cpu_init(CPU *cpu) {
     cb_opcodes[0x04] = op_rlc_h;
     cb_opcodes[0x05] = op_rlc_l;
     cb_opcodes[0x07] = op_rlc_a;
+
+    cb_opcodes[0x08] = op_rrc_b;
+    cb_opcodes[0x09] = op_rrc_c;
+    cb_opcodes[0x0A] = op_rrc_d;
+    cb_opcodes[0x0B] = op_rrc_e;
+    cb_opcodes[0x0C] = op_rrc_h;
+    cb_opcodes[0x0D] = op_rrc_l;
+    cb_opcodes[0x0F] = op_rrc_a;
+
+    cb_opcodes[0x10] = op_rl_b;
+    cb_opcodes[0x11] = op_rl_c;
+    cb_opcodes[0x12] = op_rl_d;
+    cb_opcodes[0x13] = op_rl_e;
+    cb_opcodes[0x14] = op_rl_h;
+    cb_opcodes[0x15] = op_rl_l;
+    cb_opcodes[0x17] = op_rl_a;
+
+    cb_opcodes[0x18] = op_rr_b;
+    cb_opcodes[0x19] = op_rr_c;
+    cb_opcodes[0x1A] = op_rr_d;
+    cb_opcodes[0x1B] = op_rr_e;
+    cb_opcodes[0x1C] = op_rr_h;
+    cb_opcodes[0x1D] = op_rr_l;
+    cb_opcodes[0x1F] = op_rr_a;
 }
 
 void cpu_step(CPU *cpu) {
