@@ -126,6 +126,11 @@ cpu->fZ = (cpu->src == 0); \
 cpu->fN = 0; \
 }
 
+#define INC_RR(name, src) \
+void op_inc_##name(CPU *cpu){ \
+cpu->src++; \
+}
+
 #define DEC_R(name, src) \
 void op_dec_##name(CPU *cpu){ \
 cpu->fH = ((cpu->src & 0xF) == 0x0); \
@@ -165,6 +170,7 @@ extern void (*opcodes[256])(CPU *cpu);
 
 void cpu_init(CPU *cpu);
 void cpu_step(CPU *cpu);
+void cpu_check(void);
 
 void op_unknow(CPU *cpu);
 void op_nop(CPU *cpu);
@@ -358,5 +364,11 @@ void op_ld_hl_e(CPU *cpu);
 void op_ld_hl_h(CPU *cpu);
 void op_ld_hl_l(CPU *cpu);
 void op_ld_hl_a(CPU *cpu);
+
+// ========== INC RR ========== //
+void op_inc_bc(CPU *cpu);
+void op_inc_de(CPU *cpu);
+void op_inc_hl(CPU *cpu);
+void op_inc_sp(CPU *cpu);
 
 #endif //GAMBOY_CPU

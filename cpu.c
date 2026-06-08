@@ -158,6 +158,11 @@ LD_R_HL(h, H);
 LD_R_HL(l, L);
 LD_R_HL(a, A);
 
+INC_RR(bc, BC);
+INC_RR(de, DE);
+INC_RR(hl, HL);
+INC_RR(sp, SP);
+
 //INSTRUCTION PROCESSEURS --------------
 
 void (*opcodes[256])(CPU *cpu);
@@ -528,8 +533,12 @@ void cpu_init(CPU *cpu) {
 
     opcodes[0xFE] = op_cp_n;
     opcodes[0x18] = op_jr_e;
-
     opcodes[0x20] = op_jr_nz;
+
+    opcodes[0x03] = op_inc_bc;
+    opcodes[0x13] = op_inc_de;
+    opcodes[0x23] = op_inc_hl;
+    opcodes[0x33] = op_inc_sp;
 }
 
 void cpu_step(CPU *cpu) {
@@ -538,6 +547,15 @@ void cpu_step(CPU *cpu) {
     uint8_t lecture_pc = read(pc);
     opcodes[lecture_pc](cpu);
     cpu->PC++;
+}
+
+void cpu_check(void) {
+    int count = 0;
+    for (int i = 0; i < 256; i++) {
+        if (opcodes[i] == op_unknow) count++;
+    }
+    printf("%d opcodes non implémentés\n", 256 - count);
+    printf("%d opcodes manquants\n", count);
 }
 
 // -------------------

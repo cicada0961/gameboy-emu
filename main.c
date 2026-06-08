@@ -7,6 +7,7 @@
 int main(void) {
     CPU *cpu = malloc(sizeof(CPU));
     cpu_init(cpu);
+    cpu_check();
 
     FILE *f = fopen("rom.gb", "rb");
     if (f) {
@@ -18,7 +19,7 @@ int main(void) {
         printf("Erreur SDL_Init: %s\n", SDL_GetError());
         return 1;
     }
-
+    
     SDL_Window * window = SDL_CreateWindow(
         "Game Boy",
         SDL_WINDOWPOS_CENTERED,
