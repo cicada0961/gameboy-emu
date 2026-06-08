@@ -204,6 +204,49 @@ cpu->fN = 0; \
 cpu->fH = 0; \
 }
 
+#define SLA_R(name, src) \
+void op_sla_##name(CPU *cpu){ \
+cpu->fC = (cpu->src >> 7) & 1; \
+cpu->src = cpu->src << 1; \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+}
+
+#define SRA_R(name, src) \
+void op_sra_##name(CPU *cpu){ \
+cpu->fC = cpu->src & 1; \
+cpu->src = (cpu->src >> 1) | (cpu->src & 0x80); \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+}
+
+#define SRL_R(name, src) \
+void op_srl_##name(CPU *cpu){ \
+cpu->fC = cpu->src & 1; \
+cpu->src = cpu->src >> 1; \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+}
+
+#define SWAP_R(name, src) \
+void op_swap_##name(CPU *cpu){ \
+cpu->src = ((cpu->src & 0x0F) << 4) | ((cpu->src & 0xF0) >> 4); \
+cpu->fZ = (cpu->src == 0); \
+cpu->fN = 0; \
+cpu->fH = 0; \
+cpu->fC = 0; \
+}
+
+#define BIT_N_R(bit, name, src) \
+void op_bit_##bit##_##name(CPU *cpu) { \
+uint8_t val = (cpu->src >> bit) & 1; \
+cpu->fZ = (val == 0); \
+cpu->fN = 0; \
+cpu->fH = 1; \
+}
 //====================
 
 extern void (*opcodes[256])(CPU *cpu);
@@ -234,224 +277,5 @@ void op_ld_bc_a(CPU *cpu);
 void op_ld_a_bc(CPU *cpu);
 void op_ldi_a_hl(CPU *cpu);
 void op_cb(CPU *cpu);
-
-// ========== LD R_R ========== //
-
-//B
-void op_ld_b_b(CPU *cpu);
-void op_ld_b_c(CPU *cpu);
-void op_ld_b_d(CPU *cpu);
-void op_ld_b_e(CPU *cpu);
-void op_ld_b_h(CPU *cpu);
-void op_ld_b_l(CPU *cpu);
-void op_ld_b_a(CPU *cpu);
-
-//C
-void op_ld_c_b(CPU *cpu);
-void op_ld_c_c(CPU *cpu);
-void op_ld_c_d(CPU *cpu);
-void op_ld_c_e(CPU *cpu);
-void op_ld_c_h(CPU *cpu);
-void op_ld_c_l(CPU *cpu);
-void op_ld_c_a(CPU *cpu);
-
-//D
-void op_ld_d_b(CPU *cpu);
-void op_ld_d_c(CPU *cpu);
-void op_ld_d_d(CPU *cpu);
-void op_ld_d_e(CPU *cpu);
-void op_ld_d_h(CPU *cpu);
-void op_ld_d_l(CPU *cpu);
-void op_ld_d_a(CPU *cpu);
-
-//E
-void op_ld_e_b(CPU *cpu);
-void op_ld_e_c(CPU *cpu);
-void op_ld_e_d(CPU *cpu);
-void op_ld_e_e(CPU *cpu);
-void op_ld_e_h(CPU *cpu);
-void op_ld_e_l(CPU *cpu);
-void op_ld_e_a(CPU *cpu);
-
-
-//H
-void op_ld_h_b(CPU *cpu);
-void op_ld_h_c(CPU *cpu);
-void op_ld_h_d(CPU *cpu);
-void op_ld_h_e(CPU *cpu);
-void op_ld_h_h(CPU *cpu);
-void op_ld_h_l(CPU *cpu);
-void op_ld_h_a(CPU *cpu);
-
-//L
-void op_ld_l_b(CPU *cpu);
-void op_ld_l_c(CPU *cpu);
-void op_ld_l_d(CPU *cpu);
-void op_ld_l_e(CPU *cpu);
-void op_ld_l_h(CPU *cpu);
-void op_ld_l_l(CPU *cpu);
-void op_ld_l_a(CPU *cpu);
-
-//A
-void op_ld_a_b(CPU *cpu);
-void op_ld_a_c(CPU *cpu);
-void op_ld_a_d(CPU *cpu);
-void op_ld_a_e(CPU *cpu);
-void op_ld_a_h(CPU *cpu);
-void op_ld_a_l(CPU *cpu);
-void op_ld_a_a(CPU *cpu);
-
-// ========== LD R_N ========== //
-void op_ld_b_n(CPU *cpu);
-void op_ld_c_n(CPU *cpu);
-void op_ld_d_n(CPU *cpu);
-void op_ld_e_n(CPU *cpu);
-void op_ld_h_n(CPU *cpu);
-void op_ld_l_n(CPU *cpu);
-void op_ld_a_n(CPU *cpu);
-
-// ========== ADD A_R ========== //
-void op_add_a_b(CPU *cpu);
-void op_add_a_c(CPU *cpu);
-void op_add_a_d(CPU *cpu);
-void op_add_a_e(CPU *cpu);
-void op_add_a_h(CPU *cpu);
-void op_add_a_l(CPU *cpu);
-void op_add_a_a(CPU *cpu);
-
-// ========== SUB A_R ========== //
-void op_sub_a_b(CPU *cpu);
-void op_sub_a_c(CPU *cpu);
-void op_sub_a_d(CPU *cpu);
-void op_sub_a_e(CPU *cpu);
-void op_sub_a_h(CPU *cpu);
-void op_sub_a_l(CPU *cpu);
-void op_sub_a_a(CPU *cpu);
-
-// ========== AND A_R ========== //
-void op_and_a_b(CPU *cpu);
-void op_and_a_c(CPU *cpu);
-void op_and_a_d(CPU *cpu);
-void op_and_a_e(CPU *cpu);
-void op_and_a_h(CPU *cpu);
-void op_and_a_l(CPU *cpu);
-void op_and_a_a(CPU *cpu);
-
-// ========== OR A_R ========== //
-void op_or_a_b(CPU *cpu);
-void op_or_a_c(CPU *cpu);
-void op_or_a_d(CPU *cpu);
-void op_or_a_e(CPU *cpu);
-void op_or_a_h(CPU *cpu);
-void op_or_a_l(CPU *cpu);
-void op_or_a_a(CPU *cpu);
-
-// ========== XOR A_R ========== //
-void op_xor_a_b(CPU *cpu);
-void op_xor_a_c(CPU *cpu);
-void op_xor_a_d(CPU *cpu);
-void op_xor_a_e(CPU *cpu);
-void op_xor_a_h(CPU *cpu);
-void op_xor_a_l(CPU *cpu);
-void op_xor_a_a(CPU *cpu);
-
-// ========== CP A_R ========== //
-void op_cp_a_b(CPU *cpu);
-void op_cp_a_c(CPU *cpu);
-void op_cp_a_d(CPU *cpu);
-void op_cp_a_e(CPU *cpu);
-void op_cp_a_h(CPU *cpu);
-void op_cp_a_l(CPU *cpu);
-void op_cp_a_a(CPU *cpu);
-
-// ========== INC R ========== //
-void op_inc_b(CPU *cpu);
-void op_inc_c(CPU *cpu);
-void op_inc_d(CPU *cpu);
-void op_inc_e(CPU *cpu);
-void op_inc_h(CPU *cpu);
-void op_inc_l(CPU *cpu);
-void op_inc_a(CPU *cpu);
-
-// ========== DEC R ========== //
-void op_dec_b(CPU *cpu);
-void op_dec_c(CPU *cpu);
-void op_dec_d(CPU *cpu);
-void op_dec_e(CPU *cpu);
-void op_dec_h(CPU *cpu);
-void op_dec_l(CPU *cpu);
-void op_dec_a(CPU *cpu);
-
-// ========== PUSH R_R ========== //
-void op_push_bc(CPU *cpu);
-void op_push_de(CPU *cpu);
-void op_push_hl(CPU *cpu);
-void op_push_af(CPU *cpu);
-
-// ========== POP R_R ========== //
-void op_pop_bc(CPU *cpu);
-void op_pop_de(CPU *cpu);
-void op_pop_hl(CPU *cpu);
-void op_pop_af(CPU *cpu);
-
-// ========== READ LD_HR ========== //
-void op_ld_b_hl(CPU *cpu);
-void op_ld_c_hl(CPU *cpu);
-void op_ld_d_hl(CPU *cpu);
-void op_ld_e_hl(CPU *cpu);
-void op_ld_h_hl(CPU *cpu);
-void op_ld_l_hl(CPU *cpu);
-void op_ld_a_hl(CPU *cpu);
-
-// ========== WRITE LD_HR ========== //
-void op_ld_hl_b(CPU *cpu);
-void op_ld_hl_c(CPU *cpu);
-void op_ld_hl_d(CPU *cpu);
-void op_ld_hl_e(CPU *cpu);
-void op_ld_hl_h(CPU *cpu);
-void op_ld_hl_l(CPU *cpu);
-void op_ld_hl_a(CPU *cpu);
-
-// ========== INC RR ========== //
-void op_inc_bc(CPU *cpu);
-void op_inc_de(CPU *cpu);
-void op_inc_hl(CPU *cpu);
-void op_inc_sp(CPU *cpu);
-
-// ========== RLC R ========== //
-void op_rlc_b(CPU *cpu);
-void op_rlc_c(CPU *cpu);
-void op_rlc_d(CPU *cpu);
-void op_rlc_e(CPU *cpu);
-void op_rlc_h(CPU *cpu);
-void op_rlc_l(CPU *cpu);
-void op_rlc_a(CPU *cpu);
-
-// ========== RRC R ========== //
-void op_rrc_b(CPU *cpu);
-void op_rrc_c(CPU *cpu);
-void op_rrc_d(CPU *cpu);
-void op_rrc_e(CPU *cpu);
-void op_rrc_h(CPU *cpu);
-void op_rrc_l(CPU *cpu);
-void op_rrc_a(CPU *cpu);
-
-// ========== RL R ========== //
-void op_rl_b(CPU *cpu);
-void op_rl_c(CPU *cpu);
-void op_rl_d(CPU *cpu);
-void op_rl_e(CPU *cpu);
-void op_rl_h(CPU *cpu);
-void op_rl_l(CPU *cpu);
-void op_rl_a(CPU *cpu);
-
-// ========== RR R ========== //
-void op_rr_b(CPU *cpu);
-void op_rr_c(CPU *cpu);
-void op_rr_d(CPU *cpu);
-void op_rr_e(CPU *cpu);
-void op_rr_h(CPU *cpu);
-void op_rr_l(CPU *cpu);
-void op_rr_a(CPU *cpu);
 
 #endif //GAMBOY_CPU
